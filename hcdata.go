@@ -5,19 +5,19 @@ import (
 )
 
 var (
-	block_hot                   = "blockhot.json"
-	compressflag                = "compressflag.json"
-	maphot                      = New[int]()
-	mapLit                      = New[int]()
+	Block_hot                   = "blockhot.json"
+	Compressflag                = "compressflag.json"
+	Maphot                      = New[int]()
+	MapLit                      = New[int]()
 	Mode         CompressorType = 1
 )
 
 // var maps sync.RWMutex
 // var myTimer = time.Now().Unix() // 启动定时器
-var ticker = time.NewTicker(60 * time.Second)     //计时器
-var ticker1 = time.NewTicker(30000 * time.Minute) //计时器
+var Ticker = time.NewTicker(60 * time.Second)     //计时器
+var Ticker1 = time.NewTicker(30000 * time.Minute) //计时器
 
-var cb = func(exists bool, valueInMap int, newValue int) int {
+var Cb = func(exists bool, valueInMap int, newValue int) int {
 	if !exists {
 		return newValue
 	}
