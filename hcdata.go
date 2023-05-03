@@ -1,6 +1,7 @@
 package HcdComp
 
 import (
+	cid "github.com/ipfs/go-cid"
 	"time"
 )
 
@@ -10,8 +11,11 @@ var (
 	Maphot                      = New[int]()
 	MapLit                      = New[int]()
 	Mode         CompressorType = 1
-	Tsf                         = make(chan string)
+	Tsf                         = make(chan string, 128)
 	Num                         = 1000000
+	Hotk                        = make(chan string, 128)  //热数块add的key
+	Clk                         = make(chan cid.Cid, 128) //冷数据cid
+	Hck                         = make(chan cid.Cid, 128) //热数据cid
 )
 
 // var maps sync.RWMutex
