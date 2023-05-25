@@ -1,11 +1,11 @@
 package HcdComp
 
-//源数据块的解压缩文件
 import (
 	"archive/zip"
 	"bytes"
 	"compress/zlib"
 	"fmt"
+	cuda "github.com/897243839/cudacomp"
 	"github.com/golang/snappy"
 	"github.com/klauspost/compress/zstd"
 	"github.com/pierrec/lz4"
@@ -28,6 +28,8 @@ const (
 	ZstdCompressor
 	// snappy压缩算法
 	SnappyCompressor
+	//cuda lz4压缩算法
+	CudaLz4Compressor
 )
 
 var (
@@ -40,7 +42,9 @@ var (
 	// zstd压缩算法的标识字节
 	zstdHeader = []byte{0x28, 0xb5, 0x2f, 0xfd}
 	// snappy压缩算法的标识字节
-	snappyHeader = []byte{0xff, 0x06, 0x00, 0x00}
+	snappyHeader  = []byte{0xff, 0x06, 0x00, 0x00}
+	DataHeader    = []byte{0x88}
+	CudaLz4Header = []byte{0xf5, 0x37}
 )
 
 // 获取压缩算法类型
@@ -56,6 +60,8 @@ func GetCompressorType(compressedData []byte) CompressorType {
 		return ZstdCompressor
 	} else if bytes.HasPrefix(compressedData, snappyHeader) {
 		return SnappyCompressor
+	} else if bytes.HasPrefix(compressedData, CudaLz4Header) {
+		return CudaLz4Compressor
 	} else {
 		return UnknownCompressor
 	}
@@ -74,6 +80,8 @@ func Decompress(compressedData []byte, compressorType CompressorType) []byte {
 		return Zstd_decompress(compressedData)
 	case SnappyCompressor:
 		return Snappy_decompress(compressedData)
+	case CudaLz4Compressor:
+		return cuda.Cuda_Lz4_compress(compressedData)
 	default:
 		return compressedData
 	}
@@ -92,12 +100,15 @@ func Compress(compressedData []byte, compressorType CompressorType) []byte {
 		return Zstd_compress(compressedData)
 	case SnappyCompressor:
 		return Snappy_compress(compressedData)
+	case CudaLz4Compressor:
+		return cuda.Cuda_Lz4_decompress(compressedData)
 	default:
 		return compressedData
 	}
 }
 
 // lz4解压缩
+
 func Lz4_compress(val []byte) (value []byte) {
 	var buf bytes.Buffer
 	writer := lz4.NewWriter(&buf)
@@ -112,6 +123,7 @@ func Lz4_compress(val []byte) (value []byte) {
 	}
 	return buf.Bytes()
 }
+
 func Lz4_decompress(data []byte) (value []byte) {
 	//---------------------------解压
 	b := bytes.NewReader(data)
