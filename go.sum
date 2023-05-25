@@ -1,3 +1,5 @@
+github.com/897243839/cudacomp v0.0.1 h1:gElgaJs/O66LtuwA9OW8HOgPnOwie4qtO4Ihevxb97U=
+github.com/897243839/cudacomp v0.0.1/go.mod h1:/F+NTS1TWwkpLhpZ9KH+6Y9LAaN8iqAfG9EOQYG0wko=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/frankban/quicktest v1.14.5 h1:dfYrrRyLtiqT9GyKXgdh+k4inNeTvmGbuSgZ3lx3GhA=
 github.com/frankban/quicktest v1.14.5/go.mod h1:4ptaffx2x8+WTWXmUCuVU6aPUX1/Mz7zb5vbUoiM6w0=
