@@ -1,8 +1,9 @@
-module HcdComp
+module github.com/897243839/HcdComp
 
 go 1.19
 
 require (
+	github.com/897243839/cudacomp v0.0.1
 	github.com/golang/snappy v0.0.4
 	github.com/ipfs/go-cid v0.4.1
 	github.com/klauspost/compress v1.16.5
